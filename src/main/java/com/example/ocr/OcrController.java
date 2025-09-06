@@ -5,6 +5,9 @@ import net.sourceforge.tess4j.TesseractException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +70,12 @@ public class OcrController {
         resp.put("millis", ms);
         resp.put("text", text);
         return resp;
+    }
+
+    @RequestMapping(value = "/ocr", method = { RequestMethod.HEAD, RequestMethod.OPTIONS })
+    public ResponseEntity<Void> ocrMeta() {
+    // tells proxies & browsers: “/ocr exists — use POST for real work”
+        return ResponseEntity.noContent().build(); // 204
     }
 
     @GetMapping("/health")
